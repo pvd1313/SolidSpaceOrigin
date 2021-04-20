@@ -24,7 +24,7 @@ namespace SpaceSimulator.Entities.Particles.Rendering
 
         private EntityQuery _query;
         private SquareVertices _square;
-        private EntitySystemUtil _util;
+        private NativeArrayUtil _util;
         private VertexAttributeDescriptor[] _meshLayout;
         private List<Mesh> _meshes;
         private List<Mesh> _meshesForMeshArray;

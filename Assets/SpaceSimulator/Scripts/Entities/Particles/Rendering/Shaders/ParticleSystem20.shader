@@ -1,4 +1,4 @@
-Shader "SpaceSimulator/Particles/ParticleSystem20"
+Shader "SpaceSimulator/ParticleSystem20"
 {
     Properties
     {
