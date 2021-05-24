@@ -7,9 +7,25 @@ namespace SolidSpace.GameCycle
     {
         public event Action OnUpdate;
 
+        private bool _isBroken;
+
         private void Update()
         {
-            OnUpdate?.Invoke();
+            if (_isBroken)
+            {
+                return;
+            }
+            
+            try
+            {
+                OnUpdate?.Invoke();
+            }
+            catch
+            {
+                _isBroken = true;
+                
+                throw;
+            }
         }
     }
 }
