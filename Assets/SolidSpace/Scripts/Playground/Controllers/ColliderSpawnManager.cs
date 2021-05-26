@@ -25,16 +25,16 @@ namespace SolidSpace.Playground
         private readonly IEntityWorldManager _entityManager;
         private readonly ColliderSpawnManagerConfig _config;
         private readonly Camera _camera;
-        private readonly List<ColliderInfo> _spawnedColliders;
-        private readonly ComponentType[] _colliderArchetype;
+        private readonly List<ColliderInfo> _spawnedEntities;
+        private readonly ComponentType[] _archetype;
         
         public ColliderSpawnManager(IEntityWorldManager entityManager, ColliderSpawnManagerConfig config, Camera camera)
         {
             _entityManager = entityManager;
             _config = config;
             _camera = camera;
-            _spawnedColliders = new List<ColliderInfo>();
-            _colliderArchetype = new ComponentType[]
+            _spawnedEntities = new List<ColliderInfo>();
+            _archetype = new ComponentType[]
             {
                 typeof(PositionComponent),
                 typeof(ColliderComponent),
@@ -54,63 +54,43 @@ namespace SolidSpace.Playground
                 for (var j = 0; j < _config.SpawnPerSpawn; j++)
                 {
                     var finalPosition = samplePosition + Random.insideUnitCircle * _config.SpawnExtraRadius;
-                    SpawnCollider(finalPosition);
+                    Spawn(finalPosition);
                 }
             }
         }
 
         public void UpdateController()
         {
-            if (Input.GetMouseButtonDown(0) && GetClickPosition(out var clickPosition))
-            {
-                SpawnCollider(clickPosition);
-            }
-
-            if (Input.GetMouseButtonDown(1) && GetClickPosition(out clickPosition))
-            {
-                DestroyNearest(clickPosition);
-            }
-        }
-
-        private void DestroyNearest(float2 position)
-        {
-            if (_spawnedColliders.Count == 0)
+            if (!_config.MouseControl)
             {
                 return;
             }
             
-            var minIndex = -1;
-            var minValue = float.MaxValue;
-            for (var i = 0; i < _spawnedColliders.Count; i++)
+            if (Input.GetMouseButtonDown(0) && GetClickPosition(out var clickPosition))
             {
-                var distance = FloatMath.Distance(_spawnedColliders[i].position, position);
-                if (distance < minValue)
-                {
-                    minValue = distance;
-                    minIndex = i;
-                }
+                Spawn(clickPosition);
             }
 
-            var entity = _spawnedColliders[minIndex].entity;
-            _spawnedColliders.RemoveAt(minIndex);
-            _entityManager.DestroyEntity(entity);
+            if (Input.GetMouseButtonDown(1) && GetClickPosition(out clickPosition))
+            {
+                Destroy(clickPosition);
+            }
         }
-
-        private void SpawnCollider(float2 position)
+        
+        private void Spawn(float2 position)
         {
             var width = (half) Random.Range(_config.ColliderWidth.x, _config.ColliderWidth.y);
             var height = (half) Random.Range(_config.ColliderHeight.x, _config.ColliderHeight.y);
-            var rotation = Random.value;
             var info = new ColliderInfo
             {
                 position = position,
-                entity = _entityManager.CreateEntity(_colliderArchetype),
+                entity = _entityManager.CreateEntity(_archetype),
             };
-            _spawnedColliders.Add(info);
+            _spawnedEntities.Add(info);
             
             _entityManager.SetComponentData(info.entity, new PositionComponent
             {
-                value = new float2(position.x, position.y)
+                value = position
             });
             _entityManager.SetComponentData(info.entity, new SizeComponent
             {
@@ -118,8 +98,32 @@ namespace SolidSpace.Playground
             });
             _entityManager.SetComponentData(info.entity, new RotationComponent
             {
-                value = (half) rotation
+                value = (half) Random.value
             });
+        }
+
+        private void Destroy(float2 position)
+        {
+            if (_spawnedEntities.Count == 0)
+            {
+                return;
+            }
+            
+            var minIndex = -1;
+            var minValue = float.MaxValue;
+            for (var i = 0; i < _spawnedEntities.Count; i++)
+            {
+                var distance = FloatMath.Distance(_spawnedEntities[i].position, position);
+                if (distance < minValue)
+                {
+                    minValue = distance;
+                    minIndex = i;
+                }
+            }
+
+            var info = _spawnedEntities[minIndex];
+            _spawnedEntities.RemoveAt(minIndex);
+            _entityManager.DestroyEntity(info.entity);
         }
 
         private bool GetClickPosition(out float2 clickPosition)
