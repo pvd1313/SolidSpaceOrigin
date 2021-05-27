@@ -22,17 +22,17 @@ namespace SolidSpace.Entities.Rendering.Atlases
             
             if (chunks is null)
             {
-                return string.Empty;
+                return $"{nameof(data.Chunks)} is null";
             }
 
             if (chunks.Count == 0)
             {
-                return $"'{nameof(data.Chunks)}' must contain at least 1 element";
+                return $"{nameof(data.Chunks)} must contain at least 1 element";
             }
 
             if (!BinaryMath.IsPowerOfTwo(data.AtlasSize))
             {
-                return $"'{nameof(data.AtlasSize)}' must be power of 2";
+                return $"{nameof(data.AtlasSize)} must be power of 2";
             }
 
             if (data.AtlasSize > AtlasMath.Max2DAtlasSize)
@@ -41,7 +41,7 @@ namespace SolidSpace.Entities.Rendering.Atlases
             }
 
             _spriteSizeCash.Clear();
-            var prevSpriteSizeLog2 = 0;
+            var previousSizeLog2 = 0;
             for (var i = 0; i < chunks.Count; i++)
             {
                 var chunk = chunks[i];
@@ -49,21 +49,21 @@ namespace SolidSpace.Entities.Rendering.Atlases
                 var size = itemCount * chunk.itemSize;
                 if (data.AtlasSize < size)
                 {
-                    return $"'{nameof(data.AtlasSize)}' must be at least {size} to support '{nameof(data.Chunks)}' at index {i}";
+                    return $"{nameof(data.AtlasSize)} must be at least {size} to support {nameof(data.Chunks)} at index {i}";
                 }
 
                 if (!_spriteSizeCash.Add(chunk.itemSize))
                 {
-                    return $"More than one '{nameof(data.Chunks)}' has '{nameof(chunk.itemSize)}' with value {chunk.itemSize}";
+                    return $"More than one {nameof(data.Chunks)} has {nameof(chunk.itemSize)} with value {chunk.itemSize}";
                 }
 
-                var spriteSizeLog2 = (int) Math.Ceiling(Math.Log(chunk.itemSize, 2));
-                if ((_spriteSizeCash.Count > 1) && (spriteSizeLog2 - prevSpriteSizeLog2 != 1))
+                var currentSizeLog2 = (int) Math.Ceiling(Math.Log(chunk.itemSize, 2));
+                if ((_spriteSizeCash.Count > 1) && (currentSizeLog2 - previousSizeLog2 != 1))
                 {
-                    return $"'{nameof(chunk.itemSize)}' in '{nameof(data.Chunks)}' must create power of 2 sequence";
+                    return $"{nameof(chunk.itemSize)} in {nameof(data.Chunks)} must create power of 2 sequence";
                 }
 
-                prevSpriteSizeLog2 = spriteSizeLog2;
+                previousSizeLog2 = currentSizeLog2;
             }
 
             return string.Empty;
