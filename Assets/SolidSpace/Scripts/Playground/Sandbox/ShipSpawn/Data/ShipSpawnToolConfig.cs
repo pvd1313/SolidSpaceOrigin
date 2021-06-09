@@ -6,10 +6,10 @@ namespace SolidSpace.Playground.Sandbox.ShipSpawn
     [Serializable]
     public class ShipSpawnToolConfig
     {
-        public Sprite ToolIcon => _toolIcon;
+        public PlaygroundToolConfig ToolConfig => _toolConfig;
         public Texture2D ShipTexture => _shipTexture;
         
-        [SerializeField] private Sprite _toolIcon;
+        [SerializeField] private PlaygroundToolConfig _toolConfig;
         [SerializeField] private Texture2D _shipTexture;
     }
 }
