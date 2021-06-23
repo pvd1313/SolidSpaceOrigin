@@ -51,11 +51,11 @@ namespace SolidSpace.Playground.Tools.VelocityChange
                 
                 case ECaptureEventType.CaptureUpdate:
                     var delta = eventData.currentPointer - eventData.startPointer;
-                    _gizmos.DrawScreenSquare(eventData.startEntityPosition, 6);
-                    _gizmos.DrawLine(eventData.startEntityPosition, eventData.startEntityPosition + delta);
+                    _gizmos.DrawScreenSquare(eventData.entityPosition, 6);
+                    _gizmos.DrawLine(eventData.entityPosition, eventData.entityPosition + delta);
                     _entityManager.SetComponentData(eventData.entity, new PositionComponent
                     {
-                        value = eventData.startEntityPosition
+                        value = eventData.entityPosition
                     });
                     break;
                 
@@ -67,12 +67,12 @@ namespace SolidSpace.Playground.Tools.VelocityChange
                     break;
                 
                 case ECaptureEventType.SelectionSingle:
-                    _gizmos.DrawScreenSquare(eventData.startEntityPosition, 6);
-                    _gizmos.DrawLine(eventData.currentPointer, eventData.startEntityPosition);
+                    _gizmos.DrawScreenSquare(eventData.entityPosition, 6);
+                    _gizmos.DrawLine(eventData.currentPointer, eventData.entityPosition);
                     break;
                 
                 case ECaptureEventType.SelectionMultiple:
-                    _gizmos.DrawScreenSquare(eventData.startEntityPosition, 6);
+                    _gizmos.DrawScreenSquare(eventData.entityPosition, 6);
                     break;
                 
                 default:
