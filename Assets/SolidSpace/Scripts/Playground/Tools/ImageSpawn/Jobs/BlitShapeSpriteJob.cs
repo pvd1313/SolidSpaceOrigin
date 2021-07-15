@@ -29,13 +29,10 @@ namespace SolidSpace.Playground.Tools.ImageSpawn
 
         private Mask256 _shapeMask;
 
-        [WriteOnly, NativeDisableContainerSafetyRestriction] public NativeArray<ColorRGB24> outTargetTexture;
+        [WriteOnly, NativeDisableContainerSafetyRestriction] public NativeSlice<ColorRGB24> outTargetTexture;
         
         public void Execute()
         {
-            var sourceOffset = inSourceOffset.y * inSourceSize.x + inSourceOffset.x;
-            var targetOffset = inTargetOffset.y * inTargetSize.x + inTargetOffset.x;
-            
             _shapeMask.SetBitTrue((byte) (inBlitShapeSeed - 1));
             for (var i = 0; i < inConnectionCount; i++)
             {
@@ -45,6 +42,9 @@ namespace SolidSpace.Playground.Tools.ImageSpawn
                     _shapeMask.SetBitTrue((byte) (connection.y - 1));
                 }
             }
+            
+            var sourceOffset = inSourceOffset.y * inSourceSize.x + inSourceOffset.x;
+            var targetOffset = inTargetOffset.y * inTargetSize.x + inTargetOffset.x;
             
             for (var y = 0; y < inBlitSize.y; y++)
             {

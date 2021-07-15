@@ -1,0 +1,63 @@
+using SolidSpace.Entities.Splitting;
+using SolidSpace.Mathematics;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Jobs;
+using Unity.Mathematics;
+
+namespace SolidSpace.Playground.Tools.ImageSpawn
+{
+    [BurstCompile]
+    public struct BuildShapeHealthJob : IJob
+    {
+        [ReadOnly] public NativeSlice<byte> inSourceSeedMask;
+        [ReadOnly] public int2 inSourceSize;
+        [ReadOnly] public int2 inSourceOffset;
+        [ReadOnly] public int inTargetOffset;
+
+        [ReadOnly] public byte inBlitShapeSeed;
+        [ReadOnly] public int2 inBlitSize;
+
+        [ReadOnly] public int inConnectionCount;
+        [ReadOnly] public NativeSlice<byte2> inConnections;
+
+        private Mask256 _shapeMask;
+
+        [WriteOnly, NativeDisableContainerSafetyRestriction] public NativeSlice<byte> outTargetHealth;
+        
+        public void Execute()
+        {
+            _shapeMask.SetBitTrue((byte) (inBlitShapeSeed - 1));
+            for (var i = 0; i < inConnectionCount; i++)
+            {
+                var connection = inConnections[i];
+                if (inBlitShapeSeed == connection.x)
+                {
+                    _shapeMask.SetBitTrue((byte) (connection.y - 1));
+                }
+            }
+
+            var sourceOffset = inSourceOffset.y * inSourceSize.x + inSourceOffset.x;
+            var targetOffset = inTargetOffset;
+
+            for (var y = 0; y < inBlitSize.y; y++)
+            {
+                for (var x = 0; x < inBlitSize.x; x++)
+                {
+                    var maskColor = inSourceSeedMask[sourceOffset + x];
+                    if (maskColor == 0 || !_shapeMask.HasBit((byte) (maskColor - 1)))
+                    {
+                        outTargetHealth[targetOffset + x] = 0;
+                        continue;
+                    }
+
+                    outTargetHealth[targetOffset + x] = 1;
+                }
+
+                sourceOffset += inSourceSize.x;
+                targetOffset += inBlitSize.x;
+            }
+        }
+    }
+}
