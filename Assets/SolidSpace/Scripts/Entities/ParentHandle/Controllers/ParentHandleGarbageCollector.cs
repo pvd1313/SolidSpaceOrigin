@@ -84,7 +84,7 @@ namespace SolidSpace.Entities.ParentHandle
                 inOutData = compareJob.outWastedHandles,
                 outCount = NativeMemory.CreateTempJobReference<int>()
             };
-            handleCollectJob.Schedule().Complete();
+            handleCollectJob.Run();
             _profiler.EndSample("Collect results");
             
             _profiler.BeginSample("Release handles");

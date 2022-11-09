@@ -127,9 +127,7 @@ namespace SolidSpace.Entities.Physics.Rigidbody
         {
             if (FloatMath.Dot(p1 - p0, childCenter) < 0)
             {
-                var t = p0;
-                p0 = p1;
-                p1 = t;
+                (p0, p1) = (p1, p0);
             }
 
             var delta = p1 - p0;

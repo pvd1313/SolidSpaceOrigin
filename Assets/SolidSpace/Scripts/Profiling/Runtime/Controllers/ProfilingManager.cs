@@ -85,7 +85,7 @@ namespace SolidSpace.Profiling
             
             Profiler.BeginSample("ProfilingManager.BuildTreeJob");
             _buildTreeJobTimer.Restart();
-            job.Schedule().Complete();
+            job.Run();
             _buildTreeJobTimer.Stop();
             Profiler.EndSample();
 

@@ -147,7 +147,7 @@ namespace SolidSpace.Playground.Tools.EntitySearch
                 inOutData0 = _entitiesInRadius,
                 inOutData1 = _pointsInRadius,
                 outCount = inRadiusTotalCount
-            }.Schedule().Complete();
+            }.Run();
             _profiler.EndSample("Collect inRadius");
 
             Result = new EntitySearchResult

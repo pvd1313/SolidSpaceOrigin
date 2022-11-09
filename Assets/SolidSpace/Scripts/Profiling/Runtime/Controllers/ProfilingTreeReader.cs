@@ -32,7 +32,7 @@ namespace SolidSpace.Profiling
                 outTotalNodeCount = NativeMemory.CreateTempArray<int>(1),
                 outNodes = NativeMemory.CreateTempArray<NativeNode>(count)
             };
-            job.Schedule().Complete();
+            job.Run();
             
             var nodeCount = job.outNodeCount[0];
             result.Clear();

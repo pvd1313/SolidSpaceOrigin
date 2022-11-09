@@ -146,7 +146,7 @@ namespace SolidSpace.Entities.Bullets
                 inCounts = counts,
                 inOutData = outHits,
                 outCount = outCount
-            }.Schedule().Complete();
+            }.Run();
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

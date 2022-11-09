@@ -81,7 +81,7 @@ namespace SolidSpace.Entities.Splitting.Editor
             };
             
             TimerBegin();
-            seedJob.Schedule().Complete();
+            seedJob.Run();
             TimerEnd("ShapeFillJob");
 
             if (seedJob.outResult[0].code != EShapeSeedResult.Success)
@@ -106,7 +106,7 @@ namespace SolidSpace.Entities.Splitting.Editor
             };
             
             TimerBegin();
-            shapeReadJob.Schedule().Complete();
+            shapeReadJob.Run();
             TimerEnd("ShapeReadJob");
 
             var shapeCount = shapeReadJob.outShapeCount[0];

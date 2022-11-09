@@ -89,7 +89,7 @@ namespace SolidSpace.Entities.Actors
                 inOffsets = chunks.chunkOffsets,
                 outCount = NativeMemory.CreateTempJobReference<int>()
             };
-            positionCollectJob.Schedule().Complete();
+            positionCollectJob.Run();
             _profiler.EndSample("Gizmos collect result");
             
             _profiler.BeginSample("Draw gizmos");

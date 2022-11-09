@@ -42,7 +42,7 @@ namespace SolidSpace.Entities.Physics.Colliders
                 outShapes = NativeMemory.CreateTempArray<ColliderShape>(colliderCount),
                 outBounds = NativeMemory.CreateTempArray<FloatBounds>(colliderCount),
             };
-            dataCollectJob.Schedule(chunkOffsets.chunkCount, 8).Complete();
+            dataCollectJob.Schedule(chunkOffsets.chunkCount, 1).Complete();
             profiler.EndSample("Collect data");
             
             profiler.BeginSample("Construct grid");
@@ -58,7 +58,7 @@ namespace SolidSpace.Entities.Physics.Colliders
                 inValue = default,
                 inTotalItem = worldCellTotal,
                 outNativeArray = worldCells
-            }.Schedule((int) Math.Ceiling(worldCellTotal / 128f), 8).Complete();
+            }.Schedule((int) Math.Ceiling(worldCellTotal / 128f), 1).Complete();
             profiler.EndSample("Allocate cells");
             
             profiler.BeginSample("Bake colliders");
@@ -72,7 +72,7 @@ namespace SolidSpace.Entities.Physics.Colliders
                 outColliders = NativeMemory.CreateTempArray<ChunkedCollider>(colliderCount * 4),
                 outColliderCounts = NativeMemory.CreateTempArray<int>(jobCount)
             };
-            bakingJob.Schedule(jobCount, 8).Complete();
+            bakingJob.Schedule(jobCount, 1).Complete();
             profiler.EndSample("Bake colliders");
             
             profiler.BeginSample("Lists capacity");
@@ -82,7 +82,7 @@ namespace SolidSpace.Entities.Physics.Colliders
                 inColliders = bakingJob.outColliders,
                 inColliderCounts = bakingJob.outColliderCounts,
                 inOutLists = worldCells
-            }.Schedule().Complete();
+            }.Run();
             profiler.EndSample("Lists capacity");
             
             profiler.BeginSample("Lists offsets");
@@ -90,7 +90,7 @@ namespace SolidSpace.Entities.Physics.Colliders
             {
                 inListCount = worldCellTotal,
                 inOutLists = worldCells
-            }.Schedule().Complete();
+            }.Run();
             profiler.EndSample("Lists offsets");
 
             profiler.BeginSample("Lists fill");
@@ -102,7 +102,7 @@ namespace SolidSpace.Entities.Physics.Colliders
                 inOutLists = worldCells,
                 outColliders = NativeMemory.CreateTempArray<ushort>(colliderCount * 4)
             };
-            listsFillJob.Schedule().Complete();
+            listsFillJob.Run();
             profiler.EndSample("Lists fill");
 
             profiler.BeginSample("Disposal");

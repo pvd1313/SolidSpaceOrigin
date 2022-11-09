@@ -80,7 +80,7 @@ namespace SolidSpace.Entities.Physics.Rigidbody
                 inArchetypeChunks = archetypeChunks,
                 positionHandle = _entityManager.GetComponentTypeHandle<PositionComponent>(false),
                 rigidbodyHandle = _entityManager.GetComponentTypeHandle<RigidbodyComponent>(true),
-            }.Schedule(archetypeChunks.Length, 2).Complete();
+            }.Schedule(archetypeChunks.Length, 1).Complete();
             _profiler.EndSample("Motion job");
             
             _profiler.BeginSample("Dispose arrays");
