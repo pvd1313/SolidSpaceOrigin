@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace SolidSpace.Editor.Automation.Resume.CommandLineTool
@@ -8,7 +7,9 @@ namespace SolidSpace.Editor.Automation.Resume.CommandLineTool
     {
         [SerializeField] private CommandLineToolConfig _config;
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void InvokeCommandLines()
         {
             foreach (var command in _config.CommandLines)

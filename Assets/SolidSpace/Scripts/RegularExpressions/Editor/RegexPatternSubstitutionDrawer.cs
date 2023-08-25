@@ -1,4 +1,6 @@
-using Sirenix.OdinInspector.Editor;
+#if ODIN_INSPECTOR
+
+sing Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,3 +26,5 @@ namespace SolidSpace.RegularExpressions.Editor
         }
     }
 }
+
+#endif

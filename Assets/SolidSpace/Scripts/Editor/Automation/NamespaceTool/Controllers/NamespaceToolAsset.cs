@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sirenix.OdinInspector;
 using SolidSpace.Editor.Utilities;
 using SolidSpace.IO.Editor;
 using UnityEngine;
@@ -12,7 +11,9 @@ namespace SolidSpace.Editor.Automation.NamespaceTool
     {
         [SerializeField] private Config _config;
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void ScanFoldersAndLog()
         {
             ConsoleUtil.ClearLog();
@@ -30,7 +31,9 @@ namespace SolidSpace.Editor.Automation.NamespaceTool
             Debug.Log($"Total folders: {folders.Count};");
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void ScanAssembliesAndLog()
         {
             ConsoleUtil.ClearLog();
@@ -56,7 +59,9 @@ namespace SolidSpace.Editor.Automation.NamespaceTool
             Debug.Log($"Total assemblies: {assemblies.Count}; Total folders: {folderCount}");
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void OverrideProjDotSettings()
         {
             var oldFiles = Directory.GetFiles(EditorPath.ProjectRoot, "*.csproj.DotSettings");
@@ -81,7 +86,9 @@ namespace SolidSpace.Editor.Automation.NamespaceTool
             Debug.Log("Done. Don't forget to restart Rider.");
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void RegexHelp()
         {
             Application.OpenURL("https://regex101.com/");

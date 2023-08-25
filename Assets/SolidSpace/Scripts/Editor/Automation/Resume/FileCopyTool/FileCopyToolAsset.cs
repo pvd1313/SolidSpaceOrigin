@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using Sirenix.OdinInspector;
 using SolidSpace.IO.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +12,9 @@ namespace SolidSpace.Editor.Automation.Resume.FileCopyTool
     {
         [SerializeField] private FileCopyToolConfig _config;
         
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void PreviewDeletedFiles()
         {
             var outputFolder = EditorPath.Combine(EditorPath.ProjectRoot, _config.OutputFolder.path);
@@ -27,7 +28,9 @@ namespace SolidSpace.Editor.Automation.Resume.FileCopyTool
             }
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void PreviewExportedFiles()
         {
             foreach (var asset in _config.AssetsToCopy)
@@ -38,7 +41,9 @@ namespace SolidSpace.Editor.Automation.Resume.FileCopyTool
             }
         }
         
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void DeleteOldFilesAndExportNewAssets()
         {
             var outputFolder = EditorPath.Combine(EditorPath.ProjectRoot, _config.OutputFolder.path);

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using SolidSpace.Editor.Utilities;
 using UnityEngine;
 
@@ -9,7 +8,10 @@ namespace SolidSpace.Editor.Automation.AssetNameTool
     {
         [SerializeField] private Config _config;
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+
         private void ScanAndLog()
         {
             ConsoleUtil.ClearLog();
@@ -24,7 +26,9 @@ namespace SolidSpace.Editor.Automation.AssetNameTool
             }
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void RenameAssets()
         {
             ConsoleUtil.ClearLog();

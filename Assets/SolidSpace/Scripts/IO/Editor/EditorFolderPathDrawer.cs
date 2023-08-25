@@ -1,3 +1,5 @@
+#if ODIN_INSPECTOR
+
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -18,3 +20,5 @@ namespace SolidSpace.IO.Editor
         }
     }
 }
+
+#endif

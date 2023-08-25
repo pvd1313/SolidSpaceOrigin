@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using SolidSpace.IO.Editor;
 using UnityEngine;
 
@@ -13,7 +12,15 @@ namespace SolidSpace.Editor.Automation.NamespaceTool
         public IReadOnlyList<FilterInfo> AssemblyFilters => _assemblyFilters;
 
         [SerializeField] private EditorFolderPath _scanPath;
-        [SerializeField, TableList] private List<FilterInfo> _folderFilters;
-        [SerializeField, TableList] private List<FilterInfo> _assemblyFilters;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.TableList]
+#endif
+        [SerializeField] private List<FilterInfo> _folderFilters;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.TableList]
+#endif
+        [SerializeField] private List<FilterInfo> _assemblyFilters;
     }
 }

@@ -1,11 +1,11 @@
-#if !ODIN_INSPECTOR
-
 using UnityEditor;
 
 namespace Zenject
 {
     [CanEditMultipleObjects]
+#if ODIN_INSPECTOR
     [CustomEditor(typeof(SceneContext))]
+#endif
     [NoReflectionBaking]
     public class SceneContextEditor : RunnableContextEditor
     {
@@ -32,6 +32,3 @@ namespace Zenject
         }
     }
 }
-
-
-#endif

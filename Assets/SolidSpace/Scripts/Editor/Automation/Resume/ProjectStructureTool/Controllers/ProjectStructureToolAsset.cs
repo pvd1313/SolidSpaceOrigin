@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using SolidSpace.IO.Editor;
 using UnityEngine;
 
@@ -8,7 +7,9 @@ namespace SolidSpace.Editor.Automation.Resume.ProjectStructureTool
     {
         [SerializeField] private Config _config;
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void ScanAndLog()
         {
             var console = new UnityConsole(true);
@@ -16,7 +17,9 @@ namespace SolidSpace.Editor.Automation.Resume.ProjectStructureTool
             writer.Write(_config, console);
         }
 
-        [Button]
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
         private void ScanAndExport()
         {
             var exportPath = EditorPath.Combine(EditorPath.ProjectRoot, _config.ExportPath.path);

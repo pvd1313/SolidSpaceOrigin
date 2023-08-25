@@ -1,10 +1,10 @@
-#if !ODIN_INSPECTOR
-
 using UnityEditor;
 
 namespace Zenject
 {
+#if ODIN_INSPECTOR
     [CustomEditor(typeof(GameObjectContext))]
+#endif
     [NoReflectionBaking]
     public class GameObjectContextEditor : RunnableContextEditor
     {
@@ -25,5 +25,3 @@ namespace Zenject
         }
     }
 }
-
-#endif

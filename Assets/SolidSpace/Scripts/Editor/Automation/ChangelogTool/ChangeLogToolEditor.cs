@@ -1,3 +1,5 @@
+#if ODIN_INSPECTOR
+
 using System;
 using System.Linq;
 using System.Text;
@@ -55,3 +57,5 @@ namespace SolidSpace.Editor.Automation.ChangelogTool
         }
     }
 }
+
+#endif

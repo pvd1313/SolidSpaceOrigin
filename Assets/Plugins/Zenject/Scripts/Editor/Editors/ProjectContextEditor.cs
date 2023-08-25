@@ -1,10 +1,10 @@
-#if !ODIN_INSPECTOR
-
 using UnityEditor;
 
 namespace Zenject
 {
+#if ODIN_INSPECTOR
     [CustomEditor(typeof(ProjectContext))]
+#endif
     [NoReflectionBaking]
     public class ProjectContextEditor : ContextEditor
     {
@@ -34,5 +34,3 @@ namespace Zenject
         }
     }
 }
-
-#endif

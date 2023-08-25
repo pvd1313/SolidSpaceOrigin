@@ -1,18 +1,11 @@
-#if !ODIN_INSPECTOR
-
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine;
-using ModestTree;
 
 namespace Zenject
 {
-    [CustomEditor(typeof(SceneDecoratorContext))]
+#if ODIN_INSPECTOR
+    [CustomEditor(typeof(ModestTree.SceneDecoratorContext))]
+#endif
     [NoReflectionBaking]
     public class SceneDecoratorContextEditor : ContextEditor
     {
@@ -75,5 +68,3 @@ namespace Zenject
         }
     }
 }
-
-#endif
