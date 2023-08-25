@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using SolidSpace.DependencyInjection;
 using UnityEngine;
 
@@ -8,7 +7,11 @@ namespace SolidSpace.Playground.Core
     internal class PlaygroundCoreInstaller : ScriptableObjectInstaller
     {
         [SerializeField] private PlaygroundCoreConfig _config;
-        [SerializeField, InlineEditor] private List<ScriptableObjectInstaller> _installers;
+        
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.InlineEditor]
+#endif
+        [SerializeField] private List<ScriptableObjectInstaller> _installers;
         
         public override void InstallBindings(IDependencyContainer container)
         {

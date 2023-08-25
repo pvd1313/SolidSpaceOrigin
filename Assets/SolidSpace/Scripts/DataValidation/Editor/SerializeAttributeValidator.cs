@@ -1,3 +1,5 @@
+#if ODIN_VALIDATOR
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -109,3 +111,5 @@ namespace SolidSpace.DataValidation.Editor
         }
     }
 }
+
+#endif
